@@ -23,7 +23,7 @@ Content-Type: application/json
 cache-control: no-cache
 Postman-Token: 8014f083-3b81-4d00-931e-da5fba733d7d
 {
-	"login": "admin@admin1.com",
+	"login": "admin@admin.com",
 	"password": "P@ssword123"
 }------WebKitFormBoundary7MA4YWxkTrZu0gW--
 ```
