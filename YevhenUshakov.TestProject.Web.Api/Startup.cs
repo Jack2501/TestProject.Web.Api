@@ -12,6 +12,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using Serilog;
+using Swashbuckle.AspNetCore.Swagger;
+using YevhenUshakov.TestProject.Data;
 using YevhenUshakov.TestProject.Data.Entities;
 using YevhenUshakov.TestProject.Data.Repositories.Abstract;
 using YevhenUshakov.TestProject.Data.Repositories.Concrete;
@@ -41,6 +43,8 @@ namespace YevhenUshakov.TestProject.Web.Api
         }
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddDbContext<DataContext>();
+
             services.AddIdentity<User, Role>(opts =>
             {
                 opts.Password.RequiredLength = 5;
@@ -50,6 +54,7 @@ namespace YevhenUshakov.TestProject.Web.Api
                 opts.Password.RequireDigit = false;
                 opts.SignIn.RequireConfirmedEmail = true;
             })
+                .AddEntityFrameworkStores<DataContext>()
                 .AddDefaultTokenProviders();
 
             JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
@@ -88,25 +93,33 @@ namespace YevhenUshakov.TestProject.Web.Api
                 var policy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build();
                 config.Filters.Add(new AuthorizeFilter(policy));
                 config.Filters.Add(new ValidateModelStateFilter());
-            }).AddFluentValidation(x => x.RegisterValidatorsFromAssemblyContaining<LoginModel>());
+            }).AddFluentValidation(x => x.RegisterValidatorsFromAssemblyContaining<LoginModel>()
+                .RegisterValidatorsFromAssemblyContaining<Product>());
+
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new Info { Title = "YevhenUshakov.TestProject API", Version = "v1" });
+            });
 
             // Services
             services.AddTransient<IAuthService, AuthService>();
             services.AddTransient<IProductService, ProductService>();
 
             // Repositories
-            services.AddTransient<IProductRepository, StaticProductRepository>();
-            services.AddTransient<IUserRepository, StaticUserRepository>();
+            services.AddTransient<IDatabaseInitializer, DatabaseInitializer>();
+            services.AddTransient<IProductRepository, ProductRepository>();
+            services.AddTransient<IUserRepository, UserRepository>();
 
             // Settings
             services.AddSingleton(_settingsService);
         }
 
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, IDatabaseInitializer databaseInitializer)
         {
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                databaseInitializer.Initialize().Wait();
             }
             else
             {
@@ -118,6 +131,14 @@ namespace YevhenUshakov.TestProject.Web.Api
             app.UseAuthentication();
 
             app.UseMiddleware(typeof(ErrorHandlingMiddleware));
+
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "YevhenUshakov.TestProject API");
+                c.RoutePrefix = string.Empty;
+            });
+
             app.UseMvc();
         }
     }

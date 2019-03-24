@@ -1,17 +1,11 @@
 ﻿using System;
+using Microsoft.AspNetCore.Identity;
 
 namespace YevhenUshakov.TestProject.Data.Entities
 {
-    public class User
+    public class User : IdentityUser<Guid>
     {
-        public Guid Id { get; set; }
-        public string Email { get; set; }
-        public string Password { get; set; }
 
-        public User()
-        {
-            Id = new Guid();
-        }
     }
 
 }

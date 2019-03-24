@@ -84,5 +84,37 @@ namespace YevhenUshakov.TestProject.Data.Repositories.Concrete
                 }
             }.AsQueryable();
         }
+
+        public DataContext Context => throw new System.NotImplementedException();
+
+        public void Create(Product entity)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public void Delete(Product entity)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public void DetachAll()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public IQueryable<Product> GetReadonly()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public void SaveChanges()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public void Update(Product entity)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

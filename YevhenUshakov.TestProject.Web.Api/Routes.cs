@@ -3,6 +3,7 @@
     public class Routes
     {
         public const string Login = "auth/login";
-        public const string Product = "product";
+        public const string Product = "products/{id}";
+        public const string Products = "products";
     }
 }

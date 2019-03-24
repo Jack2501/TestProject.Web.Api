@@ -93,7 +93,7 @@ namespace YevhenUshakov.TestProject.UnitTests.Web.Api.ProductControllerTests
 
             };
 
-            Sut.ProductService.Setup(x => x.Get()).Returns(new List<Product>
+            Sut.ProductService.Setup(x => x.GetAll()).Returns(new List<Product>
             {
                 new Product
                 {
@@ -168,7 +168,7 @@ namespace YevhenUshakov.TestProject.UnitTests.Web.Api.ProductControllerTests
             });
 
             //Action
-            var actualResult = Sut.Instance.Get();
+            var actualResult = Sut.Instance.GetAll();
 
             //Assert
             Assert.Equal(expectedResult, actualResult.Model, new ProductComparer());
