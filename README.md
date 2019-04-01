@@ -1,12 +1,16 @@
-# Test Project for Zeux by Yevhen Ushakov
-This is the test task was written by Yevhen Ushakov for Zeux.
+# Test Project by Yevhen Ushakov
+This is the test task was written by Yevhen Ushakov.
 In this task you can see n-layer architecture of Web.API.
 You should use next urls:
 
 | url | http verb | description |
 | ------ | ------ | ------ |
 | ~/auth/login | POST | return Bearer token |
-| ~/product | GET | return list of products|
+| ~/products | GET | return list of products|
+| ~/product/{id} | GET | return product by Id|
+| ~/products | POST | create product|
+| ~/products | PUT | update product|
+| ~/product/{id} | DELETE | delete product|
 
 # Prerequisites
 You must have an ASP.NET Core 2.2. SDK installed.
@@ -37,76 +41,4 @@ Host: localhost:44338
 Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI0ZDI2ZjU2Yy05YTI4LWU5MTEtYTgzMC01NGVlNzViNDZiYmEiLCJqdGkiOiJmNThhNmFlOC04M2ExLTRkYmUtYjhhZS03OTJlMWY0NTQyNDIiLCJleHAiOjE1NTE5MDA3MTksImlzcyI6InlldmhlbnVzaGFrb3YuY29tIn0.Pfzg1wWgLG7shUFCOzg43PcPt6FvZIggfUHFXFinoY0
 cache-control: no-cache
-```
-
-# Example of the responce
-
-```sh
-{
-    "model": [
-        {
-            "name": "name1",
-            "productType": 1,
-            "price": 10,
-            "returns": 0.1
-        },
-        {
-            "name": "name2",
-            "productType": 2,
-            "price": 20,
-            "returns": 0.2
-        },
-        {
-            "name": "name3",
-            "productType": 3,
-            "price": 30,
-            "returns": 0.3
-        },
-        {
-            "name": "name4",
-            "productType": 4,
-            "price": 40,
-            "returns": 0.4
-        },
-        {
-            "name": "name5",
-            "productType": 5,
-            "price": 50,
-            "returns": 0.5
-        },
-        {
-            "name": "name6",
-            "productType": 6,
-            "price": 60,
-            "returns": 0.6
-        },
-        {
-            "name": "name7",
-            "productType": 7,
-            "price": 70,
-            "returns": 0.7
-        },
-        {
-            "name": "name8",
-            "productType": 8,
-            "price": 80,
-            "returns": 0.8
-        },
-        {
-            "name": "name9",
-            "productType": 9,
-            "price": 90,
-            "returns": 0.9
-        },
-        {
-            "name": "name10",
-            "productType": 10,
-            "price": 1000,
-            "returns": 0.95
-        }
-    ],
-    "status": 1,
-    "description": "Success",
-    "timestamp": 1549354364
-}
 ```
